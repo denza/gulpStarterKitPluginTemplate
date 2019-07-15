@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<!-- JS -->
+	<script src="../../../../scripts/buildfire.min.js"></script>
+
+    <!-- build:bundleJSFiles  -->
+    <script src="../../widget/js/shared/infoCard.class.js"></script>
+    <script src="../../widget/js/shared/settings.class.js"></script>
+    <!-- endbuild -->
+
+</head>
+<body>
+
+
+    <div class="form-group">
+        <label for="prop1">Prop1</label>
+        <input type="email" class="form-control" id="prop1" placeholder="Email">
+    </div>
+    <div class="form-group">
+        <label for="prop2">Prop2</label>
+        <input type="password" class="form-control" id="prop2" placeholder="Password">
+    </div>
+
+    <label>
+        <input id="prop3" type="checkbox"> Prop3
+    </label>
+
+    <div>
+        <button class="btn btn-success pull-right" onclick="save()">Submit</button>
+    </div>
+
+
+    <script>
+        let settings;
+        Settings.get().then(s=>{
+        	settings=s;
+			prop1.value= s.prop1 || '';
+			prop2.value= s.prop2 || '';
+			prop3.checked = s.prop3;
+		});
+
+        function save(){
+			settings.prop1 = prop1.value;
+			settings.prop2 = prop2.value;
+			settings.prop3 = prop3.checked ;
+			settings.save();
+        }
+
+    </script>
+</body>
+</html>

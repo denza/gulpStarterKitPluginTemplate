@@ -1,0 +1,24 @@
+{
+  "name": "buildfireplugin",
+  "version": "0.0.1",
+  "description": "template for a buildfire plugin using gulp",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp build"
+  },
+  "author": "Daniel Hindi",
+  "license": "ISC",
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-csso": "^3.0.0",
+    "gulp-eslint": "^4.0.0",
+    "gulp-html-replace": "^1.6.2",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-imagemin": "^3.3.0",
+    "gulp-sequence": "^0.4.6",
+    "gulp-strip-comments": "^2.5.1",
+    "gulp-uglify": "^3.0.0"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "author":"Daniel Hindi"
+,"pluginName":"<enter your plugin name here>"
+,"pluginDescription":"<enter your plugin description here>"
+,"supportEmail":"<enter your support email here>"
+,"control":{
+  "content":{
+    "enabled":true
+  }
+, "design":{
+    "enabled":true
+  }
+, "settings":{
+    "enabled":true
+  }
+, "customTabs": [
+    { "title": "Language", "url": "/strings/index.html" }
+  ]
+}
+,"widget":{
+
+},
+  "features" : [],
+  "languages" : ["en"]
+}
