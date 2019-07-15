@@ -8,32 +8,34 @@
 
 
 class InfoCard {
-	/**
-	 * @type {boolean}
-	 */
-	isActive;
-	/**
-	 * @type {Date}
-	 */
-	createdOn;
-	/**
-	 * @type {string}
-	 */
-	createdBy;
-	/**
-	 * @type {Date}
-	 */
-	lastUpdatedOn;
-	/**
-	 * @type {string}
-	 */
-	lastUpdatedBy;
-	/**
-	 * @type {Date}
-	 */
-	deletedOn;
-	/**
-	 * @type {string}
-	 */
-	deletedBy;
+	constructor() {
+		/**
+		 * @type {boolean}
+		 */
+		this.isActive=true;
+		/**
+		 * @type {Date}
+		 */
+		this.createdOn=new Date();
+		/**
+		 * @type {string}
+		 */
+		this.createdBy = null;
+		/**
+		 * @type {Date}
+		 */
+		this.lastUpdatedOn = new Date();
+		/**
+		 * @type {string}
+		 */
+		this.lastUpdatedBy=null;
+		/**
+		 * @type {Date}
+		 */
+		this.deletedOn=null;
+		/**
+		 * @type {string}
+		 */
+		this.deletedBy=null;
+	}
 }

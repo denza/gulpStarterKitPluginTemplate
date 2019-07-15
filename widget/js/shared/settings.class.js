@@ -39,7 +39,7 @@ class Settings{
 			,prop1 : this.prop1
 			,prop2 : this.prop2
 			,prop3 : this.prop3
-		}
+		};
 	}
 
 	save(callback){
@@ -47,13 +47,13 @@ class Settings{
 			buildfire.datastore.save( this.toRawData(), "settings",(e,r)=>{
 				if(e){
 					reject(e);
-					if(callback)callback(e)
+					if(callback)callback(e);
 				}
 				else{
 					resolve(r);
 					if(callback)callback(null,r);
 				}
-			})
+			});
 		});
 
 	}

@@ -116,7 +116,7 @@ buildfire.services.Strings = class{
 				}
 				else
 					resolve();
-			})
+			});
 		});
 	}
 
@@ -135,7 +135,7 @@ buildfire.services.Strings = class{
 				e.value=v;
 			else
 				e.innerHTML=v;
-		})
+		});
 	}
 
 	save(callback){
