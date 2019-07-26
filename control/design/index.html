@@ -2,9 +2,11 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-	<!-- JS -->
-	<script src="../../../../scripts/buildfire.min.js"></script>
+
+    <!-- build:bundleControlBFMinJS  -->
+    <script src="../../../../scripts/buildfire.js"></script>
+    <!-- endbuild -->
+
     <script src="../../../../scripts/buildfire/components/images/thumbnail.js"></script>
 
     <!-- build:bundleSharedJSFiles  -->
@@ -27,11 +29,13 @@
 			thumbnail.onChange =url=>{
 				settings.bgImageUrl =url;
 				settings.save();
+				buildfire.messaging.sendMessageToWidget({cmd:"refresh"});
 			};
 
 			thumbnail.onDelete=()=>{
 				settings.bgImageUrl ="";
 				settings.save();
+				buildfire.messaging.sendMessageToWidget({cmd:"refresh"});
             };
 
 		});

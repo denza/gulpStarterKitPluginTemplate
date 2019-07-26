@@ -2,11 +2,11 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
 
-	<!-- JS -->
-	<script src="../../../scripts/buildfire.min.js"></script>
 
+    <!-- build:bundleWidgetBFMinJS  -->
+	<script src="../../../scripts/buildfire.js"></script>
+    <!-- endbuild -->
 
     <!-- build:bundleSharedJSFiles  -->
         <script src="js/shared/infoCard.class.js"></script>
@@ -32,6 +32,7 @@
 		strings.init().then(s=>{
 			/// Inject into elements that have an attribute bfString
 			strings.inject(document,false);
+			//strings.get("screenOne.loading",true)},()=>{} );
         });
 
 		buildfire.messaging.onReceivedMessage =msg=>{

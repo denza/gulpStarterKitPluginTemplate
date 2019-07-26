@@ -137,6 +137,8 @@ gulp.task('controlHTML', function(){
 			bundleSharedJSFiles:"../../widget/scripts.shared-min.js?v=" + version
             ,bundleJSFiles:"scripts-min.js?v=" + version
             ,bundleCSSFiles:"styles.min.css?v=" + version
+			,bundleControlBFMinJS:"../../../../scripts/buildfire.min.js"
+			,bundleWidgetBFMinJS:"../../../scripts/buildfire.min.js"
         }))
         .pipe(minHTML({removeComments:true,collapseWhitespace:true}))
         .pipe(gulp.dest(destinationFolder));

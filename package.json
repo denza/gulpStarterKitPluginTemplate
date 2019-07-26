@@ -4,7 +4,7 @@
   "description": "template for a buildfire plugin using gulp",
   "main": "index.js",
   "scripts": {
-    "start": "gulp build"
+    "build": "gulp build"
   },
   "author": "Daniel Hindi",
   "license": "ISC",

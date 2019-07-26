@@ -10,7 +10,7 @@ const stringsConfig = {
 				, defaultValue: "loading..."
 			}
 			, welcomeMessage: {
-				title: "Message shown to users the first time they open the app."
+				title: "Message shown to users the first time they open the app. To insert the user's name add ${user}"
 				,defaultValue:"Welcome to your app"
 				, placeholder: "enter message here"
 				, maxLength: 500
