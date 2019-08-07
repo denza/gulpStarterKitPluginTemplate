@@ -1,0 +1,29 @@
+
+#items{
+    margin-bottom: 15px;
+}
+
+.d-item{
+    display: flex;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.d-item > .glyphicon{
+    flex:1;
+    padding: 5px;
+}
+
+.d-item > .title{
+    flex:10;
+    padding-left: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.d-item .glyphicon-remove{
+    text-align: right;
+}

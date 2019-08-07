@@ -1,0 +1,45 @@
+
+.subPage{
+    display: none;
+    position: absolute;
+    top:0px;
+    left: 0px;
+    background-color: white;
+    padding: 1em;
+
+}
+
+.subPage.activeFull{
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.subPage.activeDialog{
+    display: block;
+    width: 80%;
+    left:10%;
+    top:100px;
+    box-shadow: grey 5px 5px 15px;
+    outline: 9999px solid #ffffffaa;
+}
+
+
+.subPage > .spHeader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.subPage > .spHeader > h3{
+    flex:9;
+    text-decoration: underline;
+}
+.subPage > .spHeader > span{
+    flex:1;
+    text-align: right;
+
+}
+.subPage > .spFooter{
+    text-align:right;
+}

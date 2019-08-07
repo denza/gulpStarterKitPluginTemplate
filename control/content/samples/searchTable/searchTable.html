@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- build:bundleControlBFMinJS  -->
+    <script src="../../../../../../scripts/buildfire.js"></script>
+    <!-- endbuild -->
+
+    <script src="searchTableConfig.js"></script>
+    <script src="searchTableHelper.js"></script>
+
+    <!-- DELETE THIS SCRIPT IN PROD -->
+    <script src="dummyData.js"></script>
+
+
+    <style>
+        thead, tbody tr {
+            display:table;
+            width:100%;
+            table-layout:fixed;/* even columns width , fix width of table too*/
+        }
+
+        th{
+            padding: 15px 8px 13px;
+            line-height: 26px;
+            vertical-align: top;
+        }
+
+        td{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        tbody {
+            display:block;
+            height:200px;
+            overflow:auto;
+        }
+
+        .editColumn,.deleteColumn{
+            width:40px;
+            text-align: center;
+        }
+
+    </style>
+
+</head>
+<body>
+    <!-- DELETE THIS button IN PROD -->
+    <button id="btnDELETEME" onclick="dummyData.insertDummyRecords('records',100,load)">Insert Dummy data</button>
+
+
+    <div id="searchCriteria">
+        <div class="form-group">
+            <button id="btnAdd" class="btn btn-success">Add</button>
+            <input type="text" id="txtText" class="form-control" placeholder="search criteria">
+            <button id="btnSearch" class="btn btn-info">Search</button>
+        </div>
+        <div>
+            <label for="chkActiveOnly">
+                <input type="checkbox" id="chkActiveOnly">
+                Active Only
+            </label>
+        </div>
+    </div>
+    <table id="searchResults" class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td colspan="2">Larry the Bird</td>
+            <td>@twitter</td>
+        </tr>
+        </tbody>
+    </table>
+<script>
+
+
+    let searchTableHelper = new SearchTableHelper("searchResults","records",searchTableConfig);
+    function load(){
+		searchTableHelper.search();
+    }
+    load();
+
+	searchTableHelper.onEditRow=(obj,tr)=>{
+		console.log(obj);
+		//call subPage to edit then call
+        let newObj = obj;
+		searchTableHelper.renderRow(newObj,tr); ///to update table
+    }
+
+
+
+
+    /*
+    * Pagination
+    * Sorting
+    * */
+
+
+</script>
+</body>
+</html>
