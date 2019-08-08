@@ -1,0 +1,71 @@
+
+.girdViewContainer{
+    background-color: lightgrey;
+    padding-top:5vh;
+    padding-bottom:5vh;
+    display: flex;
+    flex-wrap: wrap;
+    height: 100vh;
+    overflow-y:scroll ;
+}
+
+.gridViewAddButton{
+    border-radius: 1em;
+    content: "+";
+    border: 3px dashed blue;
+    box-shadow: 0 0 10px rgba(0,0,0,.3);
+    width: 40vw;
+    max-width: 40vw;
+    height:40vw;
+    margin-left: 7vw;
+    margin-top: 5vw;
+    background-color: white;
+}
+
+.gridViewItem{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 2fr 1fr ;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+
+
+    border-radius: 1em;
+    box-shadow: 0 0 10px rgba(0,0,0,.3);
+    width: 40vw;
+    max-width: 40vw;
+    height:40vw;
+    margin-left: 7vw;
+    margin-top: 5vw;
+    background-color: white;
+}
+
+.gridViewItem > .gridViewItemMarker{
+    grid-area: 1 / 1 / 2 / 2;
+    width:75%;
+}
+
+.gridViewItem > .gridViewItemImg{
+    grid-area: 2 / 2 / 3 / 3;
+    margin: -.5em;
+}
+
+.gridViewItem > .gridViewItemBadge{
+    grid-area: 1 / 3 / 2 / 4;
+    text-align: center;
+    background-color: darkgrey;
+    color:white;
+    border-radius: 50%;
+    margin: .5em;
+}
+
+.gridViewItem > .gridViewItemTitle{
+    grid-area: 3 / 1 / 4 / 4;
+    padding:  .5em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: larger;
+    font-weight: bolder;
+    text-align: center;
+}
