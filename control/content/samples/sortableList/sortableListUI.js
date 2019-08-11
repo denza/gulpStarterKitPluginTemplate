@@ -33,9 +33,7 @@ const sortableListUI= {
 		let t = this;
 		this.sortableList = new buildfire.components.SortableList(this.contrainer, items || []);
 
-		this.sortableList.onItemClick = (item) => {
-			buildfire.notifications.alert({message: item.title + " clicked"});
-		};
+		this.sortableList.onItemClick = this.onItemClick;
 		this.sortableList.onDeleteItem = (item, index, callback) => {
 			buildfire.notifications.confirm({
 					message: "Are you sure you want to delete " + item.title + "?"
@@ -61,5 +59,9 @@ const sortableListUI= {
 			this.data.items.splice(newIndex,0,temp);
 			buildfire.datastore.save({$set:{items:this.data.items}},this.tag,()=>{});
 		}
+	}
+
+	,onItemClick(item) {
+		buildfire.notifications.alert({message: item.title + " clicked"});
 	}
 };

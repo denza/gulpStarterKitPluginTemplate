@@ -45,6 +45,7 @@
 
         let tag="dummyData";
         function insertDummyRecords(){
+        	/// you can add any other properties to this items as long as it has these two {title, imgUrl}
 			let data={
 				items:[
 					{title:"John 1",imgUrl:"https://img.icons8.com/material/4ac144/256/user-male.png"}
@@ -62,7 +63,9 @@
         }
 
 		sortableListUI.init("items",tag);
-
+		sortableListUI.onItemClick=item=>{
+			debugger;
+        }
     </script>
 
 </body>
