@@ -61,7 +61,17 @@ const sortableListUI= {
 		}
 	}
 
-	,onItemClick(item) {
+	,updateItem(item,index,divRow){
+		sortableListUI.sortableList.injectItemElements(item,index,divRow);
+		let cmd = {$set:{}};
+		cmd.$set['items.' + index] = item;
+		buildfire.datastore.save(cmd,this.tag,e=>{
+			if(e)console.error(e);
+		});
+
+	}
+
+	,onItemClick(item,divRow) {
 		buildfire.notifications.alert({message: item.title + " clicked"});
 	}
 };

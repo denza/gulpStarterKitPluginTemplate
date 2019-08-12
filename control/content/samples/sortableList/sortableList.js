@@ -36,7 +36,9 @@ buildfire.components.SortableList = class SortableList{
 
             for (var i = 0; i < items.length; i++) {
                 this.items.push(items[i]);
-                this._appendItem(items[i]);
+                let row = document.createElement("div");
+                this.injectItemElements(items[i],i,row);
+                this.element.appendChild(row);
             }
         }
     }
@@ -64,16 +66,17 @@ buildfire.components.SortableList = class SortableList{
     }
 
     // append new sortable item to the DOM
-    _appendItem (item) {
+    injectItemElements (item,index,divRow) {
+        divRow.innerHTML="";
+        divRow.setAttribute("arrayIndex",index);
         var me = this,
             // Create the required DOM elements
-            row = document.createElement("div"),
             moveHandle = document.createElement("span"),
             title = document.createElement("a") ,
             deleteButton = document.createElement("span");
 
         // Add the required classes to the elements
-        row.className = "d-item clearfix";
+        divRow.className = "d-item clearfix";
         moveHandle.className = "glyphicon glyphicon-menu-hamburger cursor-grab ";
         title.className = "title ellipsis item-title";
 
@@ -81,25 +84,29 @@ buildfire.components.SortableList = class SortableList{
         title.innerHTML = item.title;
 
         // Append elements to the DOM
-        row.appendChild(moveHandle);
+        divRow.appendChild(moveHandle);
         if(item.imgUrl){
             let img = document.createElement("img");
             img.src = buildfire.imageLib.cropImage(item.imgUrl,{width:16,height:16});
-            row.appendChild(img);
+            divRow.appendChild(img);
         }
-        row.appendChild(title);
-        row.appendChild(deleteButton);
-        me.element.appendChild(row);
+        divRow.appendChild(title);
+        divRow.appendChild(deleteButton);
+
 
 
         title.onclick = ()=>{
-            this.onItemClick(item);
+            let index = divRow.getAttribute("arrayIndex"); /// it may have bee reordered so get value of current property
+            index = parseInt(index);
+            this.onItemClick(item,index,divRow);
             return false;
         };
 
         deleteButton.onclick=()=>{
-            this.onDeleteItem(item,null,confirmed=>{
-                if(confirmed)row.parentNode.removeChild(row);
+            let index = divRow.getAttribute("arrayIndex"); /// it may have bee reordered so get value of current property
+            index = parseInt(index);
+            this.onDeleteItem(item,index,confirmed=>{
+                if(confirmed)divRow.parentNode.removeChild(divRow);
             });
             return false;
         };
@@ -127,6 +134,11 @@ buildfire.components.SortableList = class SortableList{
                         me.items[i + 1] = me.items[i];
                     }
                 }
+                i = 0;
+                me.element.childNodes.forEach(e=>{
+                    e.setAttribute("arrayIndex",i);
+                    i++;
+                });
 
                 me.items[newIndex] = tmp;
                 me.onOrderChange(tmp, oldIndex, newIndex);
@@ -167,7 +179,7 @@ buildfire.components.SortableList = class SortableList{
     }
 
     // This will be triggered when you delete an item
-    onItemClick (item, index) {
+    onItemClick (item, index,divRow) {
         console.error("please handle onItemClick", item);
     }
 };

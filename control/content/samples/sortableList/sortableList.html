@@ -63,8 +63,12 @@
         }
 
 		sortableListUI.init("items",tag);
-		sortableListUI.onItemClick=item=>{
-			debugger;
+		sortableListUI.onItemClick=(item,index,divRow)=>{
+
+			///pop up a windows to edit then when you come back call sortableListUI.updateItem is there is an edit
+			item.title += " Updated!";
+			item.lastUpdatedOn = new Date();
+			sortableListUI.updateItem(item,index,divRow);
         }
     </script>
 
