@@ -38,7 +38,7 @@
     <div id="items"></div>
 
     <div>
-        <button onclick="insertDummyRecords();">Insert Dummy Data</button> <button class="btn btn-success pull-right">Add</button>
+        <button onclick="insertDummyRecords();">Insert Dummy Data</button> <button class="btn btn-success pull-right" onclick="addItem()">Add</button>
     </div>
 
     <script>
@@ -60,6 +60,16 @@
 			buildfire.datastore.save(data,tag,()=>{
 				location.reload();
             });
+        }
+
+        function addItem(){
+        	let item = {
+        		title: "Added Manually Item " + (new Date().toLocaleTimeString())
+                ,imgUrl:"https://img.icons8.com/material/4ac144/256/user-male.png"
+                ,createdOn:new Date()
+                ,prop1:"blah blah"
+            };
+			sortableListUI.addItem(item); /// this will also add it to the database
         }
 
 		sortableListUI.init("items",tag);

@@ -34,10 +34,11 @@ buildfire.components.SortableList = class SortableList{
                 this._removeAll();
             }
 
+
             for (var i = 0; i < items.length; i++) {
                 this.items.push(items[i]);
                 let row = document.createElement("div");
-                this.injectItemElements(items[i],i,row);
+                this.injectItemElements(items[i],this.items.length - 1,row);
                 this.element.appendChild(row);
             }
         }
@@ -56,7 +57,6 @@ buildfire.components.SortableList = class SortableList{
     // remove all items in list
     clear() {
         this._removeAll();
-        this.onDeleteItem();
     }
 
     // remove all the DOM element and empty the items array
@@ -67,11 +67,12 @@ buildfire.components.SortableList = class SortableList{
 
     // append new sortable item to the DOM
     injectItemElements (item,index,divRow) {
+        if(!item) throw "Missing Item";
         divRow.innerHTML="";
         divRow.setAttribute("arrayIndex",index);
-        var me = this,
-            // Create the required DOM elements
-            moveHandle = document.createElement("span"),
+
+        // Create the required DOM elements
+        var moveHandle = document.createElement("span"),
             title = document.createElement("a") ,
             deleteButton = document.createElement("span");
 
@@ -105,13 +106,16 @@ buildfire.components.SortableList = class SortableList{
         deleteButton.onclick=()=>{
             let index = divRow.getAttribute("arrayIndex"); /// it may have bee reordered so get value of current property
             index = parseInt(index);
+            let t = this;
             this.onDeleteItem(item,index,confirmed=>{
-                if(confirmed)divRow.parentNode.removeChild(divRow);
+                if(confirmed){
+                    divRow.parentNode.removeChild(divRow);
+                    t.reIndexRows();
+                }
             });
             return false;
         };
     }
-
 
     // initialize the generic events
     _initEvents() {
@@ -122,25 +126,11 @@ buildfire.components.SortableList = class SortableList{
         me.sortableList = Sortable.create(me.element, {
             animation: 150,
             onUpdate: function (evt) {
+
                 var newIndex = me._getSortableItemIndex(evt.item);
-                var tmp = me.items[oldIndex];
-
-                if (oldIndex < newIndex) {
-                    for (var i = oldIndex + 1; i <= newIndex; i++) {
-                        me.items[i - 1] = me.items[i];
-                    }
-                } else {
-                    for (var i = oldIndex - 1; i >= newIndex; i--) {
-                        me.items[i + 1] = me.items[i];
-                    }
-                }
-                i = 0;
-                me.element.childNodes.forEach(e=>{
-                    e.setAttribute("arrayIndex",i);
-                    i++;
-                });
-
-                me.items[newIndex] = tmp;
+                var tmp = me.items.splice(oldIndex,1)[0];
+                me.items.splice(newIndex,0,tmp);
+                me.reIndexRows();
                 me.onOrderChange(tmp, oldIndex, newIndex);
             },
             onStart: function (evt) {
@@ -149,8 +139,17 @@ buildfire.components.SortableList = class SortableList{
         });
     }
 
+    reIndexRows(){
+        let i = 0;
+        this.element.childNodes.forEach(e=>{
+            e.setAttribute("arrayIndex",i);
+            i++;
+        });
+    }
+
     // get item index from the DOM sortable elements
     _getSortableItemIndex (item) {
+
         var index = 0;
         while ((item = item.previousSibling) != null) {
             index++;

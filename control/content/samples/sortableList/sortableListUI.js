@@ -1,7 +1,11 @@
 const sortableListUI= {
 	sortableList:null
 	,contrainer:null
+	,tag:""
 	,data:null
+	,get items(){
+		return sortableListUI.sortableList.items;
+	}
 	/*
 		This method will call the datastore to pull a single object
 		it needs to have an array property called `items` each item need {title, imgUrl}
@@ -27,8 +31,6 @@ const sortableListUI= {
 		});
 	}
 
-
-
 	, render(items) {
 		let t = this;
 		this.sortableList = new buildfire.components.SortableList(this.contrainer, items || []);
@@ -42,10 +44,12 @@ const sortableListUI= {
 				}, function (e, data) {
 					if (e) console.error(e);
 					if (data.selectedButton.key == "y") {
-						let itemDeleted= t.data.items.splice(index,1);
-						t.sortableList.loadItems(t.data.items,false);
-						buildfire.datastore.save({$set:{items:t.data.items}},t.tag,e=>{
-							callback(e,itemDeleted);
+						sortableListUI.sortableList.items.splice(index,1);
+						buildfire.datastore.save({$set:{items:sortableListUI.sortableList.items}},t.tag,e=>{
+							if(e)
+								console.error(e);
+							else
+								callback(item);
 						});
 
 					}
@@ -54,10 +58,7 @@ const sortableListUI= {
 		};
 
 		this.sortableList.onOrderChange=(item, oldIndex, newIndex)=>{
-
-			let temp = this.data.items.splice(oldIndex,1)[0];
-			this.data.items.splice(newIndex,0,temp);
-			buildfire.datastore.save({$set:{items:this.data.items}},this.tag,()=>{});
+			buildfire.datastore.save({$set:{items:sortableListUI.sortableList.items}},this.tag,()=>{});
 		}
 	}
 
@@ -71,6 +72,16 @@ const sortableListUI= {
 
 	}
 
+	,addItem(item){
+		let cmd = {
+			$push:{items:item}
+		};
+		buildfire.datastore.save(cmd, this.tag,e=>{
+			if(e)console.error(e);
+		});
+
+		sortableListUI.sortableList.append(item);
+	}
 	,onItemClick(item,divRow) {
 		buildfire.notifications.alert({message: item.title + " clicked"});
 	}
