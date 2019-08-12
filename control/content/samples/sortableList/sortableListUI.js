@@ -21,7 +21,12 @@ const sortableListUI= {
 			}
 			else if (obj && obj.data) {
 				this.data = obj.data;
-				if(!obj.data.items || obj.data.items.length == 0)
+				if(!obj.data.items)
+					buildfire.datastore.save({items:[]},t.tag,()=>{
+						t.data.items=[];
+						t.contrainer.innerHTML="No items have been added yet.";
+					});
+				else if (obj.data.items.length == 0)
 					this.contrainer.innerHTML="No items have been added yet.";
 				else {
 					this.contrainer.innerHTML="";
