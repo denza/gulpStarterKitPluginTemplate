@@ -15,7 +15,7 @@ class ListView{
 	loadListViewItems(items){
 		if(this.container.innerHTML==""){
 			if(this.options.enableAddButton){
-				let addButton = ui.create("div",this.container,"+",["listViewAddButton"]);
+				let addButton = ui.create("button",this.container,"<span></span>",["listViewAddButton", "btn", "btn--add", "btn--fab", "btn-primary"]);
 				addButton.onclick = this.onAddButtonClicked;
 			}
 		}
@@ -82,12 +82,12 @@ class ListViewItem{
 				img.src= this.imageUrl;
 		}
 
-		let textSection= ui.create('div',card,null,['listViewItemTextSection']);
+		let textSection= ui.create('div',card,null,['listViewItemTextSection', 'ellipsis', 'padded', 'padded--m']);
 
-		ui.create('div',textSection,this.title,['listViewItemTitle']);
+		ui.create('h5',textSection,this.title,['listViewItemTitle', 'ellipsis', 'margin--0']);
 
 		if(this.description)
-			ui.create('div',textSection,this.description,['listViewItemDescription']);
+			ui.create('p',textSection,this.description,['listViewItemDescription', 'ellipsis', 'margin--0']);
 
 		return card;
 	}
