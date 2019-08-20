@@ -4,7 +4,7 @@ class GridView{
 	constructor(containerId,options){
 		this.container = document.getElementById(containerId);
 		if(!this.container) throw "Cant find container";
-		this.container.classList.add("girdViewContainer");
+		this.container.classList.add("gridViewContainer");
 		this.options=options || {};
 		this.container.innerHTML="";
 	}
@@ -15,7 +15,7 @@ class GridView{
 	loadGridViewItems(items){
 		if(this.container.innerHTML==""){
 			if(this.options.enableAddButton){
-				let addButton = ui.create("div",this.container,null,["gridViewAddButton"]);
+				let addButton = ui.create("button",this.container,null,["gridViewAddButton", "border-primary", "btn"]);
 				addButton.onclick = this.onAddButtonClicked;
 			}
 		}
@@ -86,7 +86,7 @@ class GridViewItem{
 
 
 		if(this.badgeNumber)
-			ui.create('span', card, this.badgeNumber, ['gridViewItemBadge',this.badgeClass]);
+			ui.create('span', card, this.badgeNumber, ['gridViewItemBadge', 'caption',this.badgeClass]);
 
 
 		if(this.imageUrl) {
@@ -98,7 +98,7 @@ class GridViewItem{
 				img.src= this.imageUrl;
 		}
 
-		ui.create('div',card,this.title,['gridViewItemTitle']);
+		ui.create('h5',card,this.title,['gridViewItemTitle','ellipsis', 'margin--0']);
 
 		return card;
 	}

@@ -1,61 +1,29 @@
 
 .listViewContainer{
-    background-color: lightgrey;
-    padding-top:5vh;
-    padding-bottom:5vh;
-    height: 100vh;
-    overflow-y:scroll ;
+    padding: 1rem;
+    overflow-y: auto;
+    max-height: 100vh;
+    padding-bottom: 6rem;
+    
 }
-
-.listViewAddButton{
-    border-radius: 50%;
-    background-color: green;
-    box-shadow: 0 0 10px rgba(0,0,0,.3);
-    width: 10vw;
-    position: fixed;
-    bottom: 60px;
-    right:60px;
-    color:white;
-    font-size: 18px;
-    text-align: center;
-}
-
 .listViewItem{
     display: flex;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,.3);
-    line-height: 30px;
-    height: 60px;
-    margin: 1em;
-    background-color: white;
+    align-items: center;
+    border-radius: .5rem;
+    background-color: rgba(255,255,255,.1);
+    box-shadow: 0 .125rem .5rem rgba(50, 50, 50, 0.2);
+    margin-bottom: .75rem;
+    min-height: 3.75rem;
 }
-
-
 .listViewItem > .listViewItemImg{
-    height: 60px;
-    width: 60px;
-    border-right:1px solid grey ;
+    height: 2rem;
+    width: 2rem;
+    margin: .5rem;
+    overflow: hidden;
+    border-radius: .25rem;
+    flex-shrink: 0;
+    object-fit: cover;
 }
-
-
 .listViewItem > .listViewItemTextSection{
-    width:calc(100% - 60px);
-    padding-left: 1em;
-}
-
-.listViewItem  .listViewItemTitle{
-    width:100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: larger;
-    font-weight: bolder;
-
-}
-
-.listViewItem  .listViewItemDescription{
-    width:100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    flex: auto;
 }
