@@ -111,14 +111,14 @@ class SearchTableHelper{
 
 		let t=this;
 		if(this.config.options.showEditButton) {
-			let td =this._create('td', tr, "<span class='glyphicon glyphicon-pencil'></span>", ["editColumn"]);
+			let td =this._create('td', tr, '<button class="btn btn--icon"><span class="icon icon-pencil"></span></button>', ["editColumn"]);
 			td.onclick=()=>{
 				t.onEditRow(obj,tr);
 			};
 		}
 
 		if(this.config.options.showDeleteButton) {
-			let td = this._create('td', tr, "<span class='glyphicon glyphicon-remove'></span>", ["editColumn"]);
+			let td = this._create('td', tr, '<button class="btn btn--icon"><span class="icon icon-cross2"></span></button>', ["editColumn"]);
 			td.onclick=()=>{
 				buildfire.notifications.confirm({
 					title:"Are you sure?"
