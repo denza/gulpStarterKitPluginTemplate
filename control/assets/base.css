@@ -69,7 +69,10 @@ input[type="email"]:focus,
 input[type="email"]:active,
 input[type="number"]:hover,
 input[type="number"]:focus,
-input[type="number"]:active {
+input[type="number"]:active,
+input[type="password"]:hover,
+input[type="password"]:focus,
+input[type="password"]:active {
     border: 1px solid #05acf0;
 }
 input[type="text"]::placeholder {
@@ -224,6 +227,9 @@ input[type=checkbox] {
     box-sizing: border-box;
     padding: 0;
 }
+input[type=file] {
+    display: flex;
+}
 .checkbox label::before {
     content: "";
     border: 1px solid #ddd;
@@ -306,6 +312,46 @@ color: #05acf0;
 .text--black {
 color: #000;    
 }
-.modal .modal-content .bottom {
+/* .modal .modal-content .bottom {
     background-color: red !important;
+} */
+.padded {
+    padding: 16px;
+}
+.padded-sm {
+    padding: 12px;
+}
+.padded-lg {
+    padding: 24px;
+}
+.padded-xl {
+    padding: 32px;
+}
+.padded-y {
+    padding-left: 0;
+    padding-right: 0;
+}  
+.padded-x {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.margin {
+    margin: 16px;
+}
+.margin-sm {
+    margin: 12px;
+}
+.margin-lg {
+    margin: 24px;
+}
+.margin-xl {
+    margin: 32px;
+}
+.margin-y {
+    margin-left: 0;
+    margin-right: 0;
+}  
+.margin-x {
+    margin-top: 0;
+    margin-bottom: 0;
 }

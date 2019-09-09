@@ -37,3 +37,6 @@ table tbody tr td {
     flex: auto;
     margin-left: 8PX;
 }
+.input-group-btn > .btn:hover, .input-group-btn > .btn:focus, .input-group-btn > .btn:active {
+    z-index: 1;
+}
