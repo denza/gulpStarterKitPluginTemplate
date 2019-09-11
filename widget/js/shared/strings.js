@@ -38,7 +38,7 @@ buildfire.services.Strings = class{
 		this._data[segmentKey][labelKey].value = value;
 	}
 
-	get(prop,enableVariables){
+	get(prop,enableVariables,context){
 		if(!this._data)throw "Strings not ready";
 
 		let s = prop.split(".");
@@ -53,6 +53,7 @@ buildfire.services.Strings = class{
 		else
 			v= l.defaultValue || "";
 
+		/// use ${context.XXX} or global variables
 		if(enableVariables)v = eval("`" + v + "`");
 		return v;
 
