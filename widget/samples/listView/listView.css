@@ -15,7 +15,7 @@
     margin-bottom: .75rem;
     min-height: 3.75rem;
 }
-.listViewItem > .listViewItemImg{
+.listViewItem  .listViewItemImg{
     height: 2rem;
     width: 2rem;
     margin: .5rem;
@@ -24,6 +24,24 @@
     flex-shrink: 0;
     object-fit: cover;
 }
-.listViewItem > .listViewItemTextSection{
+.listViewItem > .listViewItemCopy{
     flex: auto;
+}
+
+.listViewItem .toolbarBadge{
+    background-color: red;
+    border-radius: 50%;
+    color:white;
+    width:1em;
+    height:1em;
+    overflow: hidden;
+}
+
+.listViewItem .toolbarShare{
+    background-color: blue;
+    border-radius: 50%;
+    color:white;
+    width:1em;
+    height:1em;
+    overflow: hidden;
 }
