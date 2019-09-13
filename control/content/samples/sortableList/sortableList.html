@@ -26,6 +26,9 @@
     <script src="sortableList.js"></script>
     <script src="sortableListUI.js"></script>
 
+
+    <link rel="stylesheet" href="../../../assets/base.css">
+    <link rel="stylesheet" href="../../../assets/linearicons/cpIcons.css">
     <link rel="stylesheet" href="sortableList.css">
 
 
@@ -33,12 +36,16 @@
 
 </head>
 <body>
-    <h4>Title</h4>
+    <h4 class="section__title">Title</h4>
+    
+    <div>
+        <button onclick="insertDummyRecords();" class="btn btn-primary">Insert Dummy Data</button> 
+    <div>
 
     <div id="items"></div>
 
     <div>
-        <button onclick="insertDummyRecords();">Insert Dummy Data</button> <button class="btn btn-success pull-right" onclick="addItem()">Add</button>
+        <button class="btn btn-success" onclick="addItem()"><span class="icon icon-plus"></span>Add</button>
     </div>
 
     <script>

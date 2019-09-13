@@ -78,10 +78,10 @@ buildfire.components.SortableList = class SortableList{
 
         // Add the required classes to the elements
         divRow.className = "d-item clearfix";
-        moveHandle.className = "glyphicon glyphicon-menu-hamburger cursor-grab ";
+        moveHandle.className = "icon icon-menu cursor-grab";
         title.className = "title ellipsis item-title";
 
-        deleteButton.className = "glyphicon glyphicon-remove ";
+        deleteButton.className = "btn btn--icon icon icon-cross2";
         title.innerHTML = item.title;
 
         // Append elements to the DOM

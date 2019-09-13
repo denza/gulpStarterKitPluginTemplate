@@ -8,37 +8,41 @@
     <script src="../../../../../../scripts/buildfire.js"></script>
 
     <!-- endbuild -->
+    <link rel="stylesheet" href="../../../assets/base.css">
+    <link rel="stylesheet" href="../../../assets/linearicons/cpIcons.css">
     <link rel="stylesheet" href="subPage.css">
 
 </head>
 <body>
-    <h3>Load a Sub-Screen example</h3>
-    <button>load sub-screen</button>
+    <h4 class="section__title">Load a Sub-Screen example</h4>
+    <button class="btn btn-primary">load sub-screen</button>
 
     <div class="subPage activeDialog">
-        <div class="spHeader">
-            <h3>Entity Title</h3><span class="close glyphicon glyphicon-remove pull-right" ></span>
+        <div class="spHeader padded">
+            <h4>Entity Title</h4>
+            <a><span class="icon icon-cross2 close-modal"></span></a>
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+        <div class="modal-body padded">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputFile">File input</label>
+                <input type="file" id="exampleInputFile">
+                <p class="margin margin-y">Example block-level help text here.</p>
+            </div>
+            <div class="item checkbox checkbox-primary">
+                <input type="checkbox" id="">
+                <label for="">Check me out</label>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputFile">File input</label>
-            <input type="file" id="exampleInputFile">
-            <p class="help-block">Example block-level help text here.</p>
-        </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox"> Check me out
-            </label>
-        </div>
-        <div class="spFooter">
-            <a href="#" class="text text-danger" >Delete</a> <button class="btn btn-success">Save</button>
+        <div class="spFooter padded">
+            <button href="#" class="btn btn--secondary">Delete</button> <button class="btn btn-primary">Save</button>
         </div>
 
     </div>
