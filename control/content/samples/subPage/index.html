@@ -16,11 +16,12 @@
 </head>
 <body>
     <h4 class="section__title">Load a Sub-Screen example</h4>
-    <button class="btn btn-primary" onclick="sp.showDialog()">load sub-screen</button>
+    <button class="btn btn-success" onclick="sp.showDialog({title:'New Entry',saveText:'Add',hideDelete:true },()=>{ console.log('add'); })">Add sub-screen</button>
+    <button class="btn btn-success" onclick="sp.showDialog({title:'Edit Entry',saveText:'Edit' },()=>{ console.log('edit'); },()=>{ console.log('delete'); })">Edit sub-screen</button>
 
     <div id="details" class="subPage">
         <div class="spHeader padded">
-            <h4>Entity Title</h4>
+            <h4 class="spHeaderText">Entity Title</h4>
             <a><span class="icon icon-cross2 close-modal"></span></a>
         </div>
         <div class="modal-body padded">
@@ -43,7 +44,7 @@
             </div>
         </div>
         <div class="spFooter padded">
-            <button href="#" class="btn text-danger">Delete</button> <button class="btn btn-primary">Save</button>
+            <button href="#" class="btn text-danger spDeleteButton">Delete</button> <button class="btn btn-success spSaveButton">Save</button>
         </div>
 
     </div>

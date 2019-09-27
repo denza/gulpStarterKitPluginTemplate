@@ -15,8 +15,28 @@ class SubPage{
 		this.container.classList.add("activeFull");
 	}
 
-	showDialog(){
+	showDialog(options,saveCallback,deleteCallback){
+		let btnSave = this.container.querySelector(".spSaveButton");
+		btnSave.onclick=saveCallback;
+
+		let btnDeleteButton = this.container.querySelector(".spDeleteButton");
+		btnDeleteButton.style.display=''; //reset
+		btnDeleteButton.onclick=deleteCallback;
+		if(options) {
+			if (options.title) {
+				let h = this.container.querySelector(".spHeaderText");
+				h.innerHTML = options.title;
+			}
+			if (options.saveText)
+				btnSave.innerHTML = options.saveText;
+
+			
+			if (options.hideDelete)
+				btnDeleteButton.style.display = 'none';
+
+		}
 		this.container.classList.add("activeDialog");
+
 	}
 
 	close(){
