@@ -1,5 +1,5 @@
 
-class subPage{
+class SubPage{
 	constructor(id){
 		this.container = document.getElementById(id);
 		if(!this.container)throw "Sub Page ID not found";
