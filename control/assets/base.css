@@ -138,7 +138,7 @@ select {
 /* Buttons */
 .btn {
     font-size: .875rem;
-    background-color: inherit;
+
     border: 1px solid transparent;
     padding: .375rem 1rem;
     border-radius: .25rem;

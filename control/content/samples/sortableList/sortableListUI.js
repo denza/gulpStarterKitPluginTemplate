@@ -3,6 +3,7 @@ const sortableListUI= {
 	,contrainer:null
 	,tag:""
 	,data:null
+	,id:null
 	,get items(){
 		return sortableListUI.sortableList.items;
 	}
@@ -14,6 +15,7 @@ const sortableListUI= {
 		this.tag=tag;
 		this.contrainer = document.getElementById(elementId);
 		this.contrainer.innerHTML="loading...";
+		let t = this;
 		buildfire.datastore.get(this.tag, (e, obj) => {
 			if (e) {
 				console.error(e);
@@ -21,6 +23,7 @@ const sortableListUI= {
 			}
 			else if (obj && obj.data) {
 				this.data = obj.data;
+				this.id = obj.id;
 				if(!obj.data.items)
 					buildfire.datastore.save({items:[]},t.tag,()=>{
 						t.data.items=[];
@@ -28,10 +31,11 @@ const sortableListUI= {
 					});
 				else if (obj.data.items.length == 0)
 					this.contrainer.innerHTML="No items have been added yet.";
-				else {
+				else
 					this.contrainer.innerHTML="";
-					sortableListUI.render(obj.data.items);
-				}
+
+
+				sortableListUI.render(obj.data.items);
 			}
 		});
 	}

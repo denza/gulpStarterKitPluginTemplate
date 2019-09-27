@@ -28,6 +28,7 @@
 
 
     <link rel="stylesheet" href="../../../assets/base.css">
+
     <link rel="stylesheet" href="../../../assets/linearicons/cpIcons.css">
     <link rel="stylesheet" href="sortableList.css">
 
@@ -39,8 +40,9 @@
     <h4 class="section__title">Title</h4>
     
     <div>
-        <button onclick="insertDummyRecords();" class="btn btn-primary">Insert Dummy Data</button> 
-    <div>
+        <button onclick="insertDummyRecords();" class="btn btn-primary">Insert Dummy Data</button>
+        <button onclick="purgeRecords();" class="btn btn-danger">Purge Data</button>
+        <div>
 
     <div id="items"></div>
 
@@ -67,6 +69,16 @@
 			buildfire.datastore.save(data,tag,()=>{
 				location.reload();
             });
+        }
+
+        /// remove after testing
+        function purgeRecords(){
+        	debugger;
+        	if(sortableListUI.id) {
+				buildfire.datastore.delete(sortableListUI.id, tag, () => {
+					location.reload();
+				});
+			}
         }
 
         function addItem(){
