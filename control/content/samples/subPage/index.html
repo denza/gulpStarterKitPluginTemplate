@@ -11,13 +11,14 @@
     <link rel="stylesheet" href="../../../assets/base.css">
     <link rel="stylesheet" href="../../../assets/linearicons/cpIcons.css">
     <link rel="stylesheet" href="subPage.css">
+    <script src="subPage.js"></script>
 
 </head>
 <body>
     <h4 class="section__title">Load a Sub-Screen example</h4>
-    <button class="btn btn-primary">load sub-screen</button>
+    <button class="btn btn-primary" onclick="sp.showDialog()">load sub-screen</button>
 
-    <div class="subPage activeDialog">
+    <div id="details" class="subPage">
         <div class="spHeader padded">
             <h4>Entity Title</h4>
             <a><span class="icon icon-cross2 close-modal"></span></a>
@@ -47,6 +48,9 @@
 
     </div>
 <script>
+
+    let sp = new subPage("details");
+
 
 </script>
 </body>
