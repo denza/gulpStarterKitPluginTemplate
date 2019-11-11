@@ -28,7 +28,13 @@ const searchTableConfig ={
 			,data:"${ new Date(data.createdOn).toLocaleDateString()  }"
 			,type:"date"
 			,width:"100px"
-		}
+		}, {
+			header: "Greetings"
+			, command: "greeting"
+			, text: "Say Hi"
+			, type: "command"
+			, width: "90px"
+		  }
 	]
 
 };
