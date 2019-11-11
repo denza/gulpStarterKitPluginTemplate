@@ -6,7 +6,8 @@ class SearchTableHelper{
 		if(!this.table) throw "Cant find table with ID that was provided";
 		this.config = config;
 		this.tag=tag;
-		this.commands = {}
+		this.sort={};
+		this.commands = {};
 		this.init();
 	}
 
@@ -27,6 +28,30 @@ class SearchTableHelper{
 				classes=["text-right"];
 			else classes=["text-left"];
 			let th = this._create('th',this.thead,colConfig.header,classes);
+			if(colConfig.sortBy) {
+				const icon = this._create('span', th, "", ['icon', 'icon-chevron-down']);
+				const _t = this;
+				th.addEventListener('click', function () {
+					if(_t.sort[colConfig.sortBy] && _t.sort[colConfig.sortBy] > 0) {
+						_t.sort = {[colConfig.sortBy] : -1};
+						icon.classList.remove('icon-chevron-up');
+						icon.classList.add('icon-chevron-down');
+					}
+					else {
+						//revert icon if previously sorted
+						for (let i = 0; i < _t.thead.children.length; i++) {
+							if(_t.thead.children[i].children[0]) {
+								_t.thead.children[i].children[0].classList.remove('icon-chevron-up');
+								_t.thead.children[i].children[0].classList.add('icon-chevron-down');
+							}
+						};
+						_t.sort = {[colConfig.sortBy] : 1};
+						 icon.classList.remove('icon-chevron-down');
+						 icon.classList.add('icon-chevron-up');
+					}
+					_t._fetchPageOfData();
+				});
+			}
 			if(colConfig.width)
 			th.style.width = colConfig.width;
 		});
@@ -40,7 +65,7 @@ class SearchTableHelper{
 
 	renderBody(){
 		this.tbody = this._create("tbody",this.table);
-		let t= this;
+		let t = this;
 		this.tbody.onscroll=e=>{
 			if(t.tbody.scrollTop / t.tbody.scrollHeight > 0.8)
 				t._fetchNextPage();
@@ -70,7 +95,7 @@ class SearchTableHelper{
 		this.pageIndex=pageIndex;
 		let options={
 			filter:filter
-			//,sort:{"rank":1 , "lastName":-1 }
+			,sort: this.sort
 			,page: pageIndex
 			,pageSize:pageSize
 		};
