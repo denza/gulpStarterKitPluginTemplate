@@ -1,4 +1,3 @@
-
 class SearchTableHelper{
 	constructor(tableId,tag,config){
 		if(!config) throw "No config provided";
@@ -8,6 +7,7 @@ class SearchTableHelper{
 		this.config = config;
 		this.tag=tag;
 		this.sort={};
+		this.commands = {};
 		this.init();
 	}
 
@@ -17,7 +17,7 @@ class SearchTableHelper{
 		this.renderBody();
 	}
 
-	renderHeader(){
+  renderHeader() {
 		if(!this.config.columns) throw "No columns are indicated in the config";
 		this.thead = this._create('thead',this.table);
 		this.config.columns.forEach(colConfig=>{
@@ -73,18 +73,13 @@ class SearchTableHelper{
 	}
 
 	search(filter){
-
-		if(filter && !filter.index) console.warning("Search isnt using indexes");
-
 		this.tbody.innerHTML='';
 		this._create('tr',this.tbody,'<td colspan="99"> searching...</td>',["loadingRow"]);
 		this.filter=filter;
-		this._fetchPageOfData(0);
-
+		this._fetchPageOfData(this.filter, 0);
 	}
 
 	_fetchNextPage(){
-		console.error("_fetchNextPage");
 		if(this.fetchingNextPage)return;
 		this.fetchingNextPage=true;
 		let t=this;
@@ -96,7 +91,7 @@ class SearchTableHelper{
 	_fetchPageOfData(filter,pageIndex,callback){
 
 		if(pageIndex>0 && this.endReached) return;
-		let pageSize = 1;
+		let pageSize = 50;
 		this.pageIndex=pageIndex;
 		let options={
 			filter:filter
@@ -115,23 +110,49 @@ class SearchTableHelper{
 		});
 	}
 
+	_onCommand(obj, tr, command){
+		if(this.commands[command]){
+			this.commands[command](obj,tr)
+		}else{
+			console.log(`Command ${command} does not have any handler`);
+		}
+	}
+
 	renderRow(obj,tr){
-		if(tr) //uesed to update a row
+		if(tr) //used to update a row
 			tr.innerHTML='';
 		else
 			tr = this._create('tr',this.tbody);
 		tr.setAttribute("objId",obj.id);
 		this.config.columns.forEach(colConfig=>{
-			let classes = [];
-			if(colConfig.type == "date")
-				classes=["text-center"];
-			else if(colConfig.type == "number")
-				classes=["text-right"];
-			else classes=["text-left"];
-			let data = obj.data;///needed for the eval statement next
-			let td=this._create('td',tr,eval("`" + colConfig.data + "`"),classes);
-			if(colConfig.width)
-				td.style.width = colConfig.width;
+				let classes = [];
+				if(colConfig.type == "date")
+					classes=["text-center"];
+				else if(colConfig.type == "number")
+					classes=["text-right"];
+				else classes=["text-left"];
+				var td;
+				if(colConfig.type == "command"){
+					td =this._create('td', tr, '<button class="btn btn-link">' + colConfig.text + '</button>', ["editColumn"]);
+					td.onclick=(event)=>{
+						event.preventDefault();
+						this._onCommand(obj,tr,colConfig.command);
+					};
+				} else {
+					var output = ""
+					try {
+						///needed for the eval statement next
+						var data = obj.data;
+						output = eval("`" + colConfig.data + "`");
+					} catch (error) {
+						console.log(error);
+					}
+					td=this._create('td',tr,output,classes);
+					
+				}
+				if(colConfig.width)
+						td.style.width = colConfig.width;
+			
 		});
 
 		let t=this;
@@ -181,6 +202,10 @@ class SearchTableHelper{
 
 	onRowDeleted(obj,tr){
 		console.log("Record Delete",obj);
+	}
+
+	onCommand(command, cb){
+		this.commands[command] = cb;
 	}
 
 	_create(elementType,appendTo,innerHTML,classNameArray){

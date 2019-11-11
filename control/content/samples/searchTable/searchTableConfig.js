@@ -32,6 +32,13 @@ const searchTableConfig ={
 			,type:"date"
 			,width:"100px"
 			,sortBy: 'createdOn'
+		},
+		{
+			header: "Greetings"
+			,command: "greeting"
+			,text: "Say Hi"
+			,type: "command"
+			,width: "90px"
 		}
 	]
 

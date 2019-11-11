@@ -66,12 +66,21 @@
 		searchTableHelper.renderRow(newObj,tr); ///to update table
     }
 
-
-
+    //Example of handling command event
+    searchTableHelper.onCommand('greeting',(obj,tr)=>{
+        buildfire.notifications.alert({
+        title:"Greetings"
+        ,message:`Hi  ${obj.data.name.firstName} ${obj.data.name.lastName}`
+        ,okButton: {text:'Ok'}
+        },function(e,data){
+             if(e) console.error(e); 
+             if(data) console.log(data);
+        });
+    });
 
     /*
-    * Pagination
-    * Sorting
+    * Pagination is completed
+    * Sorting  TODO
     * */
 
 
