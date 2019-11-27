@@ -7,6 +7,7 @@ const htmlReplace = require('gulp-html-replace');
 const minify = require('gulp-minify');
 const eslint = require('gulp-eslint');
 const imagemin = require('gulp-imagemin');
+let babel = require('gulp-babel');
 
 let version = new Date().getTime();
 const destinationFolder= releaseFolder();
@@ -92,6 +93,10 @@ gulp.task("sharedJS", function() {
 	return gulp.src(["widget/js/shared/**.js"],{base: '.'})
 
 		.pipe(concat('scripts.shared.js'))
+		.pipe(babel({
+			presets: ['@babel/env'],
+			plugins: ["@babel/plugin-proposal-class-properties"]
+		}))
 		.pipe(minify())
 		.pipe(gulp.dest(destinationFolder + "/widget"));
 });
@@ -102,6 +107,9 @@ const jsTasks=[
     ,{name:"controlDesignJS",src:"control/design/js/*.js",dest:"/control/design"}
     ,{name:"controlSettingsJS",src:"control/settings/js/*.js",dest:"/control/settings"}
 	,{name:"controlStringsJS",src:"control/strings/js/*.js",dest:"/control/strings"}
+	//data, data access, tests and analytics
+	,{name:"dataJS",src:["data/*.js", "dataAccess/*.js"],dest:"/data"}
+	,{name:"testsJS",src:["tests/*.js", "tests/basic/*.js", "test/screens/*.js"],dest:"/tests"}
 ];
 
 
@@ -113,7 +121,11 @@ jsTasks.forEach(function(task){
             /// merge all the JS files together. If the
             /// order matters you can pass each file to the function
             /// in an array in the order you like
-            .pipe(concat('scripts.js'))
+			.pipe(concat('scripts.js'))
+			.pipe(babel({
+				presets: ['@babel/env'],
+				plugins: ["@babel/plugin-proposal-class-properties"]
+			}))
 			.pipe(minify())
             ///output here
             .pipe(gulp.dest(destinationFolder + task.dest));
@@ -139,6 +151,9 @@ gulp.task('controlHTML', function(){
             ,bundleCSSFiles:"styles.min.css?v=" + version
 			,bundleControlBFMinJS:"../../../../scripts/buildfire.min.js"
 			,bundleWidgetBFMinJS:"../../../scripts/buildfire.min.js"
+			//data, data access, tests and analytics
+			,bundleDataJSFiles:"../../data/scripts-min.js?v=" + version
+			,bundleTestsJSFiles:"../../tests/scripts-min.js?v=" + version
         }))
         .pipe(minHTML({removeComments:true,collapseWhitespace:true}))
         .pipe(gulp.dest(destinationFolder));
@@ -150,11 +165,13 @@ gulp.task('widgetHTML', function(){
 			bundleSharedJSFiles:"scripts.shared-min.js?v=" + version
 			,bundleJSFiles:"scripts-min.js?v=" + version
 			,bundleCSSFiles:"styles.min.css?v=" + version
+			//data, data access and tests
+			,bundleDataJSFiles:"../../data/scripts-min.js?v=" + version
+			,bundleTestsJSFiles:"../../tests/scripts-min.js?v=" + version
 		}))
 		.pipe(minHTML({removeComments:true,collapseWhitespace:true}))
 		.pipe(gulp.dest(destinationFolder));
 });
-
 
 
 gulp.task('resources', function(){
