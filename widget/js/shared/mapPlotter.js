@@ -15,9 +15,9 @@ if (typeof buildfire.components.mapPlotter == "undefined") buildfire.components.
         if (scripts[i].src && scripts[i].src.toLowerCase().indexOf("maps.googleapis.com/maps/api") > -1) {
             googleScriptSrc = scripts[i].src;
         }
-        if (scripts[i].src && scripts[i].src.toLowerCase().indexOf("markerclusterer.js") > -1) {
-            clustererScriptSrc = scripts[i].src;
-        }
+        // if (scripts[i].src && scripts[i].src.toLowerCase().indexOf("markerclusterer.js") > -1) {
+        //     clustererScriptSrc = scripts[i].src;
+        // }
     }
 
     document.write(
@@ -138,13 +138,15 @@ buildfire.components.mapPlotter = function (selector, googleMap, publicDataTag, 
 
     if (typeof google == "undefined") throw "please add GoogleMaps first to use mapPloter components";
 
-    if (typeof MarkerClusterer == "undefined") throw "please add MarkerClusterer first to use mapPloter components";
+    // if (typeof MarkerClusterer == "undefined") throw "please add MarkerClusterer first to use mapPloter components";
 
     this.setCoreOptions();
 
     this.userCoordinates = googleMap.getCenter();
 
     this.itemsData = [];
+
+    this.ids = [];
 
     this.listItems = [];
 
@@ -204,7 +206,8 @@ buildfire.components.mapPlotter.prototype = {
     // Allows change of the default filtering
     setFilterOptions: function (filterOptions) {
         this.filterOptions = filterOptions;
-        this.loadItems();
+        this.clearAll();
+        this.loadItems(0);
     },
 
     // Sets default options for the component
@@ -304,7 +307,7 @@ buildfire.components.mapPlotter.prototype = {
                 if (this.isObject(source[key])) {
                     if (!target[key]) Object.assign(target, { [key]: {} });
                     this.mergeOptions(target[key], source[key]);
-                } else {console.log(key,source[key])
+                } else {
                     Object.assign(target, { [key]: source[key] });
                 }
             }
@@ -341,14 +344,13 @@ buildfire.components.mapPlotter.prototype = {
             this.boundsFields = _freshBounds;
 
             var viewPortPoligon = [[this.boundsFields.west, this.boundsFields.north], [this.boundsFields.east, this.boundsFields.north], [this.boundsFields.east, this.boundsFields.south], [this.boundsFields.west, this.boundsFields.south], [this.boundsFields.west, this.boundsFields.north]];
-            // console.log("VIEW PORT CHANGED");
             this.onBoundsChange(viewPortPoligon);
         }
     },
 
     mapViewPortChanged: function (_initiator) {
         console.log("mapViewPortChanged")
-        if(this.busy) return;
+        // if(this.busy) return;
         console.log("mapViewPortChanged executed")
         this.busy = true;
 
@@ -457,61 +459,55 @@ buildfire.components.mapPlotter.prototype = {
         });
     },
 
-    clearListItems: function () {
-        this.listItems.forEach(function (listItem) {
-            listItem.remove('click');
-        });
-        this.listItems.length = 0;
-    },
-
     clearAll: function () {
         this._resetActiveMarker();
+        this.ids.length = 0;
         this.itemsData.length = 0;
         this.mapMarkers.forEach(function (mapMarker) {
             google.maps.event.clearInstanceListeners(mapMarker);
         });
         this.mapMarkers.length = 0;
-        this.clearListItems();
-        this.listBoxEl.el.innerHTML = "";
         this.markerClusterer.clearMarkers();
     },
 
     addItems: function (_itemsList, ignoreFitBounds) {
-        this.itemsData = _itemsList;
 
-        this.mapMarkers.forEach(function (mapMarker) {
-            google.maps.event.clearInstanceListeners(mapMarker);
-        });
-
-        this.mapMarkers.length = 0;
-        this.markerClusterer.clearMarkers();
-
+        let markers = []
         _itemsList.forEach((item) => {
+            if (this.ids[item.id]) return;
+
+            this.ids[item.id] = item.id;
+            this.itemsData.push(item);
+
             let marker = this._createMarker(item);
             if (marker) {
                 this.mapMarkers.push(marker);
+                markers.push(marker);
             }
         
-        item.distanceKm = this.getDistanceFromLatLon(
-            this.userCoordinates.lat(),
-            this.userCoordinates.lng(),
-            item.data._buildfire.geo.coordinates[1],
-            item.data._buildfire.geo.coordinates[0],
-            false,
-            false)
+            item.distanceKm = this.getDistanceFromLatLon(
+                this.userCoordinates.lat(),
+                this.userCoordinates.lng(),
+                item.data._buildfire.geo.coordinates[1],
+                item.data._buildfire.geo.coordinates[0],
+                false,
+                false)
 
-        item.distanceMile = this.getDistanceFromLatLon(
-            this.userCoordinates.lat(),
-            this.userCoordinates.lng(),
-            item.data._buildfire.geo.coordinates[1],
-            item.data._buildfire.geo.coordinates[0],
-            true,
-            false)
+            item.distanceMile = this.getDistanceFromLatLon(
+                this.userCoordinates.lat(),
+                this.userCoordinates.lng(),
+                item.data._buildfire.geo.coordinates[1],
+                item.data._buildfire.geo.coordinates[0],
+                true,
+                false)
         })
 
-        this._onDataChange(_itemsList)
+        this.itemsData.concat(_itemsList);
+        if (this._onDataChange && typeof (this._onDataChange) == "function") {
+            this._onDataChange(this.itemsData)
+        }
 
-        this.markerClusterer.addMarkers(this.mapMarkers);
+        this.markerClusterer.addMarkers(markers);
 
         if (!this.clusterClickHandler) {
             google.maps.event.addListenerOnce(this.mapInstance, 'idle', this.attachMapListeners.bind(this));
@@ -539,72 +535,80 @@ buildfire.components.mapPlotter.prototype = {
         google.maps.event.addListenerOnce(this.mapInstance, 'idle', this.attachMapListeners.bind(this));
     },
 
-    loadItems: function () {
+    loadItems: function (page = 0) {
         console.log("LOAD_ITEMS", this.filterOptions)
-        let filterOptions = this.filterOptions || null;
-        if (!filterOptions) {
-            // Current user location
-            var pointTo = [this.userCoordinates.lng(), this.userCoordinates.lat()];
-            // Default filter finds locations near to the current user location
+        // Current user location
+        var pointTo = [this.userCoordinates.lng(), this.userCoordinates.lat()];
+        // Default filter finds locations near to the current user location
+        let filterOptions = {
+            "filter": {
+                "$and": [
+                    {
+                        "$json._buildfire.geo": {
+                            "$near": {
+                                "$geometry": {
+                                    "type": "Point",
+                                    "coordinates": pointTo
+                                },
+                                "$minDistance": 0,
+                                "$maxDistance": 8000
+                            }
+                        }
+                    }
+                ]
+            },
+            "page": page,
+            "pageSize": 50
+        };
+
+        if(this.boundsFields){
             filterOptions = {
                 "filter": {
                     "$and": [
                         {
                             "$json._buildfire.geo": {
-                                "$near": {
-                                    "$geometry": {
-                                        "type": "Point",
-                                        "coordinates": pointTo
-                                    },
-                                    "$minDistance": 0,
-                                    "$maxDistance": 8000
+                                "$geoWithin":{
+                                    "$geometry": { 
+                                        "type": "Polygon",  
+                                        coordinates: [ [[this.boundsFields.west, this.boundsFields.north], [this.boundsFields.east, this.boundsFields.north], [this.boundsFields.east, this.boundsFields.south], [this.boundsFields.west, this.boundsFields.south], [this.boundsFields.west, this.boundsFields.north] ] ]
+                                    }
                                 }
                             }
+                            
                         }
                     ]
                 },
-                "page": 0,
-                "pageSize": 50,
-                recordCount: true
-            };
-
-            if(this.boundsFields){
-                filterOptions = {
-                    "filter": {
-                        "$and": [
-                            {
-                                "$json._buildfire.geo": {
-                                    "$geoWithin":{
-                                        "$geometry": { 
-                                            "type": "Polygon",  
-                                            coordinates: [ [[this.boundsFields.west, this.boundsFields.north], [this.boundsFields.east, this.boundsFields.north], [this.boundsFields.east, this.boundsFields.south], [this.boundsFields.west, this.boundsFields.south], [this.boundsFields.west, this.boundsFields.north] ] ]
-                                        }
-                                    }
-                                }
-                                
-                            }
-                        ]
-                    },
-                        "page": 0,
-                        "pageSize": 50,
-                        recordCount: true
-                }
+                    "page": page,
+                    "pageSize": 50
             }
         }
 
+        if(this.filterOptions){
+            if(this.filterOptions.filter){
+                filterOptions.filter.$and.push(this.filterOptions.filter)
+            }
+
+            if(this.filterOptions.sort){
+                filterOptions.filter.sort = this.filterOptions.sort
+            }
+        }
+        
         buildfire.publicData.search(
             filterOptions,
             this.publicDataTag,
             function (error, resp) {
-
                 if (error) {
-                    throw "Error loading mapItems from datastore.";
+                    throw "Error loading mapItems from publicData.";
                 }
 
-                if (resp && resp.result) {
-                    this.addItems(resp.result);
+                if (resp) {
+                    this.addItems(resp);
                 }
-
+                
+                if(resp.length == 50){
+                    this.loadItems(page + 1 )
+                }
+                
                 this.busy = false;
             }.bind(this)
         );
