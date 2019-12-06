@@ -32,9 +32,6 @@ function initMap() {
       customButton1: {
         show: true,
       },
-      customButton2: {
-        show: true,
-      },
       listOptions: {
         extendClassName: "map-plotter__list-extend"
       },
@@ -43,48 +40,42 @@ function initMap() {
       },
       quickPreviewItem: {
         extendClassName: "quick-preview__item-extend"
-      },
-      // filterOptions: {
-      //   filter: {
-      //     "$and": [
-      //       { "$json.title": "Parlament" }
-      //     ]
-      //   },
-      //   "page": 0,
-      //   "pageSize": 50,
-      //   recordCount: true
-      // }
+      }
     }
     let mapPlotter = new buildfire.components.mapPlotter(document.getElementById("map"), googleMap, "people", mapOptions);
-    // mapPlotter.setFilterOptions({
-    //   filter: {
-    //     "$and": [
-    //       { "$json.title": "Parlament" }
-    //     ]
-    //   },
-    //   "page": 0,
-    //   "pageSize": 50,
-    //   recordCount: true
-    // })
-    mapPlotter.onPinClick = function (i1, i2, i3) {
-      console.log("OnPinClick", i1, i2, i3);
-    }
-    mapPlotter.onPinCreated = function (i1, i2) {
-      console.log("OnPinCreated", i1, i2);
-      i1.icon.fillColor = "blue";
-    }
-    mapPlotter.onFilterClick = function () {
-      console.log("onFilterClick");
-    }
-    mapPlotter.onShowListClick = function (i1, i2) {
-      console.log("onShowListClick", i1, i2);
-    }
-    mapPlotter.onCustom1Click = function (i1, i2) {
+    
+    // mapPlotter.onPinClick = function (i1, i2, i3) {
+    //   console.log("OnPinClick", i1, i2, i3);
+    // }
+    // mapPlotter.onPinCreated = function (i1, i2) {
+    //   console.log("OnPinCreated", i1, i2);
+    //   i1.icon.fillColor = "blue";
+    // }
+    
+    mapPlotter.onFilterClick( () => {
+      mapPlotter.setFilterOptions({
+        filter: {
+          "$json.gender": "Female" 
+        }
+      });
+    });
+
+    mapPlotter.onShowListClick((i1, i2) => {
+      mapPlotter.setFilterOptions({
+        filter: {
+          "$json.gender": "Male" 
+        }
+      });
+    });
+
+    mapPlotter.onCustom1Click( (i1, i2) => {
       console.log("onCustom1Click", i1, i2);
-    }
-    mapPlotter.onCustom2Click = function (i1, i2) {
+    });
+
+    mapPlotter.onCustom2Click((i1, i2) => {
       console.log("onCustom2Click", i1, i2);
-    }
+    });
+
   }
 
 
