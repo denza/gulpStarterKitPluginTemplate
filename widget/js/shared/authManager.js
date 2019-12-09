@@ -29,4 +29,11 @@ const authManager = {
         console.warn('You must handle on user changed');
     }
 };
-buildfire.auth.onLogout(authManager.enforceLogin, true);
+buildfire.auth.onLogout(() => {
+    window.buildfire.history.get({}, (e, b) => {
+        b.forEach(() => {
+          history.pop();
+        });
+      });
+    window.location.reload();
+});
