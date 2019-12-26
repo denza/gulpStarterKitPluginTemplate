@@ -1,5 +1,12 @@
 class SearchTableHelper{
 	constructor(tableId,tag,config){
+		this.supportedStores ={
+			'publicData': buildfire.publicData,
+			'userData': buildfire.userData, 
+			'appData': buildfire.appData, 
+			'dataStore': buildfire.dataStore
+		};
+		this.store = buildfire.publicData;
 		if(!config) throw "No config provided";
 		if(!tableId) throw "No tableId provided";
 		this.table = document.getElementById(tableId);
@@ -8,6 +15,9 @@ class SearchTableHelper{
 		this.tag=tag;
 		this.sort={};
 		this.commands = {};
+		if(config.store && this.supportedStores[config.store]){
+			this.store = this.supportedStores[config.store];
+		}
 		this.init();
 	}
 
@@ -101,7 +111,7 @@ class SearchTableHelper{
 		};
 
 		this.searchOptions=options;
-		buildfire.publicData.search(options,this.tag,(e,results)=>{
+		this.store.search(options,this.tag,(e,results)=>{
 			if(e && callback) return callback(e);
 			this.tbody.innerHTML='';
 			results.forEach(r=>this.renderRow(r));
@@ -176,7 +186,7 @@ class SearchTableHelper{
 
 					if(data.selectedButton.key =="yes") {
 						tr.classList.add("hidden");
-						buildfire.publicData.update(obj.id,{$set:{deletedOn:new Date()}},this.tag,e=>{
+						this.store.update(obj.id,{$set:{deletedOn:new Date()}},this.tag,e=>{
 							if(e)
 								tr.classList.remove("hidden");
 							else

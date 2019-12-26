@@ -3,6 +3,7 @@ const searchTableConfig ={
 	options:{
 		showEditButton:true
 		,showDeleteButton:true
+		, store: "publicData"
 	}
 	,columns:[
 		{
