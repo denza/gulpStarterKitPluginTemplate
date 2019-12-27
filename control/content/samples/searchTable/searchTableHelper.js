@@ -103,11 +103,15 @@ class SearchTableHelper{
 		this.searchOptions=options;
 		buildfire.publicData.search(options,this.tag,(e,results)=>{
 			if(e && callback) return callback(e);
-			this.tbody.innerHTML='';
-			results.forEach(r=>this.renderRow(r));
-			this.endReached = results.length < pageSize;
+			this._render(options, this.onSearchResult(results) || results);
 			if(callback)callback();
 		});
+	}
+
+	_render(options, results){
+		this.tbody.innerHTML='';
+		results.forEach(r=>this.renderRow(r));
+		this.endReached = results.length < options.pageSize;
 	}
 
 	_onCommand(obj, tr, command){
@@ -208,6 +212,10 @@ class SearchTableHelper{
 		this.commands[command] = cb;
 	}
 
+	onSearchResult(results){
+		return false;
+	}
+	
 	_create(elementType,appendTo,innerHTML,classNameArray){
 		let e = document.createElement(elementType);
 		if(innerHTML) e.innerHTML = innerHTML;
